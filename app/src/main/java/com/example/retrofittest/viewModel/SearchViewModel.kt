@@ -44,7 +44,14 @@ class SearchViewModel : ViewModel() {
                      call: Call<KaKaoSearchResponse>,
                      response: Response<KaKaoSearchResponse>,
                  ) {
-                     Log.d("API Call", response.toString())
+                     Log.d("API Call", "response : ${response}")
+                     Log.d("API Call", "headers() : " +
+                             "${call.request().headers().toString().dropLast(7)}"
+                     )
+                     Log.d("API Call", "header[Authorization] : " +
+                             "${call.request().headers("Authorization").toString().dropLast(7)}"
+                     )
+                     Log.d("API Call", "ContentType : ${call.request().headers("Content-Type")}")
                  }
 
                  override fun onFailure(call: Call<KaKaoSearchResponse>, t: Throwable) {

@@ -13,10 +13,10 @@ class SearchImageRepository {
     private val client = RetrofitInstance.getInstance().create(SearchApi::class.java)
 
     suspend fun getSearchImageData(keyWord: String): KaKaoSearchResponse {
-        return client.getSearchImage(keyWord, BuildConfig.KAKAO_API_KEY)
+        return client.getSearchImage(keyWord)
     }
 
     suspend fun getSearchImageDataCall(keyWord: String): Call<KaKaoSearchResponse> {
-        return client.getSearchImageCall(keyWord, BuildConfig.KAKAO_API_KEY)
+        return client.getSearchImageCall(keyWord)
     }
 }
