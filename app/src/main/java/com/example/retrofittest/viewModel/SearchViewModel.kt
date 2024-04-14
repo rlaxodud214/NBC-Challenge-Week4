@@ -8,6 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.retrofittest.model.KaKaoSearchResponse
 import com.example.retrofittest.repository.SearchImageRepository
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SearchViewModel : ViewModel() {
 
@@ -29,6 +32,25 @@ class SearchViewModel : ViewModel() {
 
              _imageData.value = repository.getSearchImageData(keyWord)
             Log.d("API Call", _imageData.value.toString())
+        }
+    }
+
+    fun setSearchImageDataCall() {
+        viewModelScope.launch {
+            val keyWord = _searchWord.value.toString()
+
+             repository.getSearchImageDataCall(keyWord).enqueue(object: Callback<KaKaoSearchResponse> {
+                 override fun onResponse(
+                     call: Call<KaKaoSearchResponse>,
+                     response: Response<KaKaoSearchResponse>,
+                 ) {
+                     Log.d("API Call", response.toString())
+                 }
+
+                 override fun onFailure(call: Call<KaKaoSearchResponse>, t: Throwable) {
+                     TODO("Not yet implemented")
+                 }
+             })
         }
     }
 }

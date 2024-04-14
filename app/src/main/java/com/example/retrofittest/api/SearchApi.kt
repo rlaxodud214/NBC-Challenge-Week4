@@ -12,4 +12,10 @@ interface SearchApi {
         @Query("query") query: String,
         @Header("Authorization") authorization: String,
     ): KaKaoSearchResponse
+
+    @GET("v2/search/image")
+    fun getSearchImageCall(
+        @Query("query") query: String,
+        @Header("Authorization") authorization: String,
+    ): Call<KaKaoSearchResponse>
 }

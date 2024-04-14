@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
             btnSearch.setOnClickListener {
                 searchViewModel.setSearchImageData()
+                searchViewModel.setSearchImageDataCall()
             }
         }
     }
