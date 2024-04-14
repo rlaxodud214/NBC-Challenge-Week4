@@ -1,3 +1,13 @@
+import java.util.Properties
+import java.io.FileInputStream
+
+val properties = Properties().apply {
+    load(FileInputStream(rootProject.file("local.properties")))
+}
+
+val kakaoApiUrl = properties.getProperty("KAKAO_API_URL")
+val kakaoApiKey = properties.getProperty("KAKAO_API_KEY")
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -16,8 +26,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "KAKAO_API_URL", properties.get("KAKAO_API_URL").toString())
-        buildConfigField("String", "KAKAO_API_KEY", properties.get("KAKAO_API_KEY").toString())
+        buildConfigField("String", "KAKAO_API_URL", kakaoApiUrl)
+        buildConfigField("String", "KAKAO_API_KEY", kakaoApiKey)
     }
 
     buildTypes {
