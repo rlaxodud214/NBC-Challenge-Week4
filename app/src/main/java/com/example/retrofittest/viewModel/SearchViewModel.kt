@@ -24,8 +24,8 @@ class SearchViewModel : ViewModel() {
     private var _videoData = MutableLiveData<KaKaoSearchVideoResponse>()
     val videoData: LiveData<KaKaoSearchVideoResponse> = _videoData
 
-//    private var _currentTabPosition = MutableLiveData<Int>()
-//    val currentTabPosition: LiveData<Int> = _currentTabPosition
+    private var _currentTabPosition = MutableLiveData<Int>()
+    val currentTabPosition: LiveData<Int> = _currentTabPosition
 
     private val repository = SearchImageRepository()
 
@@ -33,9 +33,16 @@ class SearchViewModel : ViewModel() {
         _searchWord.value = keyWord
     }
 
-//    fun setCurrentTabPosition(position: Int) {
-//        _currentTabPosition.value = position
-//    }
+    fun setCurrentTabPosition(position: Int) {
+        _currentTabPosition.value = position
+    }
+
+    fun setSearchData() {
+        when(currentTabPosition.value) {
+            0 -> setSearchImageData()
+            1 -> setSearchVideoData()
+        }
+    }
 
     fun setSearchImageData() {
         viewModelScope.launch {

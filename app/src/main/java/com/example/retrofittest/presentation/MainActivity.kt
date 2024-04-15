@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val searchViewModel: SearchViewModel by viewModels()
-    private var currentTabPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             tlMain.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     tab?.connectFragment()
-                    currentTabPosition = tab?.position!!
+                    searchViewModel.setCurrentTabPosition(tab?.position!!)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {}
@@ -50,12 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnSearch.setOnClickListener {
-            with(searchViewModel) {
-                when(currentTabPosition) {
-                    0 -> setSearchImageData()
-                    1 -> setSearchVideoData()
-                }
-            }
+            searchViewModel.setSearchData()
         }
     }
 
