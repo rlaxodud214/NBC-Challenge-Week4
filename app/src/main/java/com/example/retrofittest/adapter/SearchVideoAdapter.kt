@@ -5,20 +5,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.retrofittest.databinding.ItemRvBinding
-import com.example.retrofittest.model.ImageDocument
+import com.example.retrofittest.model.VideoDocument
 
-class SearchImageAdapter(val dataSet: List<ImageDocument>) :
-    RecyclerView.Adapter<SearchImageAdapter.ViewHolder>() {
+class SearchVideoAdapter(val dataSet: List<VideoDocument>) :
+    RecyclerView.Adapter<SearchVideoAdapter.ViewHolder>() {
     class ViewHolder(val binding: ItemRvBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(imageDocument: ImageDocument) {
+        fun bind(videoDocument: VideoDocument) {
             with(binding) {
                 Glide.with(binding.root)
-                    .load(imageDocument.image_url)
+                    .load(videoDocument.url)
                     .into(ivImage)
 
-                tvCollection.text = imageDocument.collection
-                tvDisplaySitename.text = imageDocument.display_sitename
-                tvDatetime.text = imageDocument.datetime
+                tvCollection.text = videoDocument.title
+                tvDisplaySitename.text = videoDocument.author
+                tvDatetime.text = videoDocument.datetime
             }
         }
     }

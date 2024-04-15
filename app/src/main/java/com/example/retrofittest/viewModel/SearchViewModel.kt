@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.retrofittest.model.KaKaoSearchImageResponse
+import com.example.retrofittest.model.KaKaoSearchVideoResponse
 import com.example.retrofittest.repository.SearchImageRepository
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -20,49 +21,63 @@ class SearchViewModel : ViewModel() {
     private var _imageData = MutableLiveData<KaKaoSearchImageResponse>()
     val imageData: LiveData<KaKaoSearchImageResponse> = _imageData
 
+    private var _videoData = MutableLiveData<KaKaoSearchVideoResponse>()
+    val videoData: LiveData<KaKaoSearchVideoResponse> = _videoData
+
+//    private var _currentTabPosition = MutableLiveData<Int>()
+//    val currentTabPosition: LiveData<Int> = _currentTabPosition
+
     private val repository = SearchImageRepository()
 
     fun setSearchWord(keyWord: String) {
         _searchWord.value = keyWord
     }
 
+//    fun setCurrentTabPosition(position: Int) {
+//        _currentTabPosition.value = position
+//    }
+
     fun setSearchImageData() {
         viewModelScope.launch {
             val keyWord = _searchWord.value.toString()
-            val results = repository.getSearchImageData(keyWord)
 
-            _imageData.value = results
-
-            Log.d("API Call", _imageData.value.toString())
-        }
-    }
-
-    fun setSearchImageDataCall() {
-        viewModelScope.launch {
-            val keyWord = _searchWord.value.toString()
-
-            repository.getSearchImageDataCall(keyWord)
+            repository.getSearchImage(keyWord)
                 .enqueue(object : Callback<KaKaoSearchImageResponse> {
                     override fun onResponse(
                         call: Call<KaKaoSearchImageResponse>,
                         response: Response<KaKaoSearchImageResponse>,
                     ) {
+                        if (response.code() == 200) {
+                            _imageData.value = response.body()
+                        }
                         Log.d("API Call", "response : ${response}")
-                        Log.d(
-                            "API Call", "headers() : " +
-                                    "${call.request().headers().toString().dropLast(7)}"
-                        )
-                        Log.d(
-                            "API Call", "header[Authorization] : " +
-                                    "${
-                                        call.request().headers("Authorization").toString()
-                                            .dropLast(7)
-                                    }"
-                        )
-                        Log.d("API Call", "ContentType : ${call.request().headers("Content-Type")}")
                     }
 
                     override fun onFailure(call: Call<KaKaoSearchImageResponse>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+                })
+        }
+    }
+
+    fun setSearchVideoData() {
+        viewModelScope.launch {
+            val keyWord = _searchWord.value.toString()
+
+            repository.getSearchVideo(keyWord)
+                .enqueue(object : Callback<KaKaoSearchVideoResponse> {
+                    override fun onResponse(
+                        call: Call<KaKaoSearchVideoResponse>,
+                        response: Response<KaKaoSearchVideoResponse>,
+                    ) {
+                        Log.d("API Call", "response : ${response}")
+
+                        if (response.code() == 200) {
+                            _videoData.value = response.body()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<KaKaoSearchVideoResponse>, t: Throwable) {
                         TODO("Not yet implemented")
                     }
                 })

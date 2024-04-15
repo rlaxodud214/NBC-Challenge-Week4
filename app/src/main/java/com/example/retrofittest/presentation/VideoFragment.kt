@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.retrofittest.adapter.SearchVideoAdapter
 import com.example.retrofittest.databinding.FragmentImageBinding
 import com.example.retrofittest.viewModel.SearchViewModel
 
@@ -31,7 +33,14 @@ class VideoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        searchViewModel.videoData.observe(viewLifecycleOwner) {
+            val searchVideoAdapter = SearchVideoAdapter(it.documents)
 
+            with(binding.rvImage) {
+                adapter = searchVideoAdapter
+                layoutManager = LinearLayoutManager(context)
+            }
+        }
     }
 
     companion object {
