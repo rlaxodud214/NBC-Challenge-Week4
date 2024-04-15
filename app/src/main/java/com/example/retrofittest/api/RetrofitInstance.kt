@@ -1,6 +1,5 @@
 package com.example.retrofittest.api
 
-import android.provider.CalendarContract.Instances
 import com.example.retrofittest.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

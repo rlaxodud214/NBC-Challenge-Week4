@@ -1,24 +1,20 @@
 package com.example.retrofittest.repository
 
-import android.util.Log
-import com.example.retrofittest.BuildConfig
 import com.example.retrofittest.api.RetrofitInstance
 import com.example.retrofittest.api.SearchApi
-import com.example.retrofittest.model.KaKaoSearchResponse
+import com.example.retrofittest.model.KaKaoSearchImageResponse
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SearchImageRepository {
     private val client = RetrofitInstance.getInstance().create(SearchApi::class.java)
 
-    suspend fun getSearchImageData(keyWord: String): KaKaoSearchResponse {
-        return client.getSearchImage(keyWord)
+    suspend fun getSearchImageData(keyWord: String): KaKaoSearchImageResponse {
+        return client.getSearchImage(keyWord, "recency")
 //        return client.getSearchImage(BuildConfig.KAKAO_API_KEY, keyWord)
     }
 
-    suspend fun getSearchImageDataCall(keyWord: String): Call<KaKaoSearchResponse> {
-        return client.getSearchImageCall(keyWord)
+    suspend fun getSearchImageDataCall(keyWord: String): Call<KaKaoSearchImageResponse> {
+        return client.getSearchImageCall(keyWord, "recency")
 //        return client.getSearchImageCall(BuildConfig.KAKAO_API_KEY, keyWord)
     }
 }

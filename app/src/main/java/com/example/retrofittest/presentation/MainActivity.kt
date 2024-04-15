@@ -1,7 +1,6 @@
 package com.example.retrofittest.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.retrofittest.adapter.SearchImageAdapter
 import com.example.retrofittest.databinding.ActivityMainBinding
 import com.example.retrofittest.viewModel.SearchViewModel
-import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {

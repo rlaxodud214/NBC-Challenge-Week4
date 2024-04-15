@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.retrofittest.model.KaKaoSearchResponse
+import com.example.retrofittest.model.KaKaoSearchImageResponse
 import com.example.retrofittest.repository.SearchImageRepository
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -17,8 +17,8 @@ class SearchViewModel : ViewModel() {
     private var _searchWord = MutableLiveData<String>()
     val searchWord: LiveData<String> = _searchWord
 
-    private var _imageData = MutableLiveData<KaKaoSearchResponse>()
-    val imageData: LiveData<KaKaoSearchResponse> = _imageData
+    private var _imageData = MutableLiveData<KaKaoSearchImageResponse>()
+    val imageData: LiveData<KaKaoSearchImageResponse> = _imageData
 
     private val repository = SearchImageRepository()
 
@@ -31,9 +31,7 @@ class SearchViewModel : ViewModel() {
             val keyWord = _searchWord.value.toString()
             val results = repository.getSearchImageData(keyWord)
 
-            _imageData.value = results.apply {
-                documents = documents.sortedByDescending { it.datetime }
-            }
+            _imageData.value = results
 
             Log.d("API Call", _imageData.value.toString())
         }
@@ -43,25 +41,31 @@ class SearchViewModel : ViewModel() {
         viewModelScope.launch {
             val keyWord = _searchWord.value.toString()
 
-             repository.getSearchImageDataCall(keyWord).enqueue(object: Callback<KaKaoSearchResponse> {
-                 override fun onResponse(
-                     call: Call<KaKaoSearchResponse>,
-                     response: Response<KaKaoSearchResponse>,
-                 ) {
-                     Log.d("API Call", "response : ${response}")
-                     Log.d("API Call", "headers() : " +
-                             "${call.request().headers().toString().dropLast(7)}"
-                     )
-                     Log.d("API Call", "header[Authorization] : " +
-                             "${call.request().headers("Authorization").toString().dropLast(7)}"
-                     )
-                     Log.d("API Call", "ContentType : ${call.request().headers("Content-Type")}")
-                 }
+            repository.getSearchImageDataCall(keyWord)
+                .enqueue(object : Callback<KaKaoSearchImageResponse> {
+                    override fun onResponse(
+                        call: Call<KaKaoSearchImageResponse>,
+                        response: Response<KaKaoSearchImageResponse>,
+                    ) {
+                        Log.d("API Call", "response : ${response}")
+                        Log.d(
+                            "API Call", "headers() : " +
+                                    "${call.request().headers().toString().dropLast(7)}"
+                        )
+                        Log.d(
+                            "API Call", "header[Authorization] : " +
+                                    "${
+                                        call.request().headers("Authorization").toString()
+                                            .dropLast(7)
+                                    }"
+                        )
+                        Log.d("API Call", "ContentType : ${call.request().headers("Content-Type")}")
+                    }
 
-                 override fun onFailure(call: Call<KaKaoSearchResponse>, t: Throwable) {
-                     TODO("Not yet implemented")
-                 }
-             })
+                    override fun onFailure(call: Call<KaKaoSearchImageResponse>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+                })
         }
     }
 }

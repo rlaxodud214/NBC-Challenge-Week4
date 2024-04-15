@@ -7,8 +7,9 @@ import com.bumptech.glide.Glide
 import com.example.retrofittest.databinding.ItemRvImageBinding
 import com.example.retrofittest.model.ImageDocument
 
-class SearchImageAdapter(val dataSet: List<ImageDocument>): RecyclerView.Adapter<SearchImageAdapter.ViewHolder>() {
-    class ViewHolder(val binding: ItemRvImageBinding): RecyclerView.ViewHolder(binding.root) {
+class SearchImageAdapter(val dataSet: List<ImageDocument>) :
+    RecyclerView.Adapter<SearchImageAdapter.ViewHolder>() {
+    class ViewHolder(val binding: ItemRvImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(imageDocument: ImageDocument) {
             with(binding) {
                 Glide.with(binding.root)
