@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.retrofittest.adapter.SearchImageAdapter
 import com.example.retrofittest.databinding.ActivityMainBinding
 import com.example.retrofittest.viewModel.SearchViewModel
 
@@ -21,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         getDataFromKakao()
-        initAdapter()
     }
 
     fun getDataFromKakao() {
@@ -38,14 +35,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initAdapter() {
-        searchViewModel.imageData.observe(this) {
-            val searchImageAdapter = SearchImageAdapter(it.documents)
-
-            with(binding.rvImage) {
-                adapter = searchImageAdapter
-                layoutManager = LinearLayoutManager(this@MainActivity)
-            }
-        }
-    }
 }

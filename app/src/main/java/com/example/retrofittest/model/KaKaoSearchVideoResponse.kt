@@ -14,5 +14,5 @@ data class VideoDocument(
     val datetime: String,
     val playTime: Int,
     val thumbnail: String,
-    val author: String
+    val author: String,
 )
