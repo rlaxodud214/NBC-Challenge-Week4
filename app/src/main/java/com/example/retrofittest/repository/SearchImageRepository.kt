@@ -14,9 +14,11 @@ class SearchImageRepository {
 
     suspend fun getSearchImageData(keyWord: String): KaKaoSearchResponse {
         return client.getSearchImage(keyWord)
+//        return client.getSearchImage(BuildConfig.KAKAO_API_KEY, keyWord)
     }
 
     suspend fun getSearchImageDataCall(keyWord: String): Call<KaKaoSearchResponse> {
         return client.getSearchImageCall(keyWord)
+//        return client.getSearchImageCall(BuildConfig.KAKAO_API_KEY, keyWord)
     }
 }

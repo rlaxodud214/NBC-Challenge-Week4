@@ -29,8 +29,12 @@ class SearchViewModel : ViewModel() {
     fun setSearchImageData() {
         viewModelScope.launch {
             val keyWord = _searchWord.value.toString()
+            val results = repository.getSearchImageData(keyWord)
 
-             _imageData.value = repository.getSearchImageData(keyWord)
+            _imageData.value = results.apply {
+                documents = documents.sortedByDescending { it.datetime }
+            }
+
             Log.d("API Call", _imageData.value.toString())
         }
     }

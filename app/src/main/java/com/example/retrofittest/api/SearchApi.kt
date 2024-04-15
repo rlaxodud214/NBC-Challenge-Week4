@@ -11,16 +11,12 @@ import retrofit2.http.Query
 
 interface SearchApi {
     @GET("v2/search/image")
-    @Headers("Authorization: ${BuildConfig.KAKAO_API_KEY}")
     suspend fun getSearchImage(
-        // @Header("Authorization") accessToken: String,
         @Query("query") query: String,
     ): KaKaoSearchResponse
 
     @GET("v2/search/image")
-    @Headers("Authorization: ${BuildConfig.KAKAO_API_KEY}")
     fun getSearchImageCall(
-        // @Header("Authorization") accessToken: String,
         @Query("query") query: String,
     ): Call<KaKaoSearchResponse>
 }

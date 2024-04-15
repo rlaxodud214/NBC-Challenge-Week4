@@ -2,7 +2,7 @@ package com.example.retrofittest.model
 
 data class KaKaoSearchResponse(
     val meta: Meta,
-    val documents: List<ImageDocument>,
+    var documents: List<ImageDocument>,
 )
 
 data class Meta(
