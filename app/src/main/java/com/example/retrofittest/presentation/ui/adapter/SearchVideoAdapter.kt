@@ -1,24 +1,24 @@
-package com.example.retrofittest.adapter
+package com.example.retrofittest.presentation.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.retrofittest.data.model.VideoDocumentResponse
 import com.example.retrofittest.databinding.ItemRvBinding
-import com.example.retrofittest.model.ImageDocument
 
-class SearchImageAdapter(val dataSet: List<ImageDocument>) :
-    RecyclerView.Adapter<SearchImageAdapter.ViewHolder>() {
+class SearchVideoAdapter(val dataSet: List<VideoDocumentResponse>) :
+    RecyclerView.Adapter<SearchVideoAdapter.ViewHolder>() {
     class ViewHolder(val binding: ItemRvBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(imageDocument: ImageDocument) {
+        fun bind(videoDocumentResponse: VideoDocumentResponse) {
             with(binding) {
                 Glide.with(binding.root)
-                    .load(imageDocument.image_url)
+                    .load(videoDocumentResponse.url)
                     .into(ivImage)
 
-                tvCollection.text = imageDocument.collection
-                tvDisplaySitename.text = imageDocument.display_sitename
-                tvDatetime.text = imageDocument.datetime
+                tvCollection.text = videoDocumentResponse.title
+                tvDisplaySitename.text = videoDocumentResponse.author
+                tvDatetime.text = videoDocumentResponse.datetime
             }
         }
     }

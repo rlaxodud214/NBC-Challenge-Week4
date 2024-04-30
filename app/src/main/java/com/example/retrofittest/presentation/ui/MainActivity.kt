@@ -1,4 +1,4 @@
-package com.example.retrofittest.presentation
+package com.example.retrofittest.presentation.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -8,7 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.example.retrofittest.R
 import com.example.retrofittest.databinding.ActivityMainBinding
-import com.example.retrofittest.viewModel.SearchViewModel
+import com.example.retrofittest.presentation.ui.viewModel.SearchViewModel
+import com.example.retrofittest.presentation.ui.viewModel.SearchViewModelFactory
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +17,9 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private val searchViewModel: SearchViewModel by viewModels()
+    private val searchViewModel: SearchViewModel by viewModels() {
+        SearchViewModelFactory()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

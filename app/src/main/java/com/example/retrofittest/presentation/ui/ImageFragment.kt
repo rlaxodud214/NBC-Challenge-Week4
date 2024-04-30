@@ -1,4 +1,4 @@
-package com.example.retrofittest.presentation
+package com.example.retrofittest.presentation.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,20 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.retrofittest.adapter.SearchVideoAdapter
 import com.example.retrofittest.databinding.FragmentImageBinding
-import com.example.retrofittest.viewModel.SearchViewModel
+import com.example.retrofittest.presentation.ui.adapter.SearchImageAdapter
+import com.example.retrofittest.presentation.ui.viewModel.SearchViewModel
+import com.example.retrofittest.presentation.ui.viewModel.SearchViewModelFactory
 
-class VideoFragment : Fragment() {
+class ImageFragment : Fragment() {
     private val binding by lazy {
         FragmentImageBinding.inflate(layoutInflater)
     }
 
-    private val searchViewModel: SearchViewModel by activityViewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    private val searchViewModel: SearchViewModel by activityViewModels() {
+        SearchViewModelFactory()
     }
 
     override fun onCreateView(
@@ -33,22 +31,23 @@ class VideoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchViewModel.videoData.observe(viewLifecycleOwner) {
-            val searchVideoAdapter = SearchVideoAdapter(it.documents)
+        searchViewModel.imageData.observe(viewLifecycleOwner) {
+            val data = it.documents ?: listOf()
+            val searchImageAdapter = SearchImageAdapter(data)
 
             with(binding.rvImage) {
-                adapter = searchVideoAdapter
+                adapter = searchImageAdapter
                 layoutManager = LinearLayoutManager(context)
             }
         }
     }
 
     companion object {
-        private var INSTANCE: VideoFragment? = null
+        private var INSTANCE: ImageFragment? = null
 
-        fun newInstance(): VideoFragment {
-            return synchronized(VideoFragment::class.java) {
-                val instance = INSTANCE ?: VideoFragment()
+        fun newInstance(): ImageFragment {
+            return synchronized(ImageFragment::class.java) {
+                val instance = INSTANCE ?: ImageFragment()
 
                 if (INSTANCE == null) {
                     INSTANCE = instance
