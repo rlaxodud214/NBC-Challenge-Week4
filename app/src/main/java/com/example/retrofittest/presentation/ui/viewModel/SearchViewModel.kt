@@ -44,12 +44,8 @@ class SearchViewModel(
 
     fun setSearchData() {
         when (currentTabPosition.value) {
-            0 -> {
-                setSearchImageData()
-            }
-            1 -> {
-                setSearchVideoData()
-            }
+            0 -> setSearchImageData()
+            1 -> setSearchVideoData()
         }
     }
 
