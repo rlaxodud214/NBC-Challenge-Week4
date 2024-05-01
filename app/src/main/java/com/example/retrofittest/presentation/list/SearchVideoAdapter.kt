@@ -1,4 +1,4 @@
-package com.example.retrofittest.presentation.ui.adapter
+package com.example.retrofittest.presentation.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

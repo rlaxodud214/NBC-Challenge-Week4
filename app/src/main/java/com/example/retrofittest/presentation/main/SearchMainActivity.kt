@@ -1,19 +1,15 @@
-package com.example.retrofittest.presentation.ui
+package com.example.retrofittest.presentation.main
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import com.example.retrofittest.R
 import com.example.retrofittest.databinding.ActivityMainBinding
 import com.example.retrofittest.presentation.ui.viewModel.SearchViewModel
 import com.example.retrofittest.presentation.ui.viewModel.SearchViewModelFactory
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class MainActivity : AppCompatActivity() {
+class SearchMainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -22,8 +18,8 @@ class MainActivity : AppCompatActivity() {
         SearchViewModelFactory()
     }
 
-    val searchViewPagerAdapter: SearchViewPagerAdapter by lazy {
-        SearchViewPagerAdapter(this)
+    val searchMainViewPagerAdapter: SearchMainViewPagerAdapter by lazy {
+        SearchMainViewPagerAdapter(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +32,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         with(binding) {
-            viewPager.adapter = searchViewPagerAdapter
+            viewPager.adapter = searchMainViewPagerAdapter
 
             TabLayoutMediator(tlMain, viewPager) { tab, position ->
-                tab.setText(searchViewPagerAdapter.getTitle(position))
-                tab.setIcon(searchViewPagerAdapter.getIcon(position))
+                tab.setText(searchMainViewPagerAdapter.getTitle(position))
+                tab.setIcon(searchMainViewPagerAdapter.getIcon(position))
             }.attach()
         }
     }

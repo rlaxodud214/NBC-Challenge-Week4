@@ -1,4 +1,4 @@
-package com.example.retrofittest.presentation.ui
+package com.example.retrofittest.presentation.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.retrofittest.databinding.FragmentImageBinding
-import com.example.retrofittest.presentation.ui.adapter.SearchImageAdapter
 import com.example.retrofittest.presentation.ui.viewModel.SearchViewModel
 import com.example.retrofittest.presentation.ui.viewModel.SearchViewModelFactory
 

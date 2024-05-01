@@ -7,18 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.example.retrofittest.data.model.SearchImageResponse
 import com.example.retrofittest.data.model.SearchVideoResponse
 import com.example.retrofittest.data.repository.SearchRepositoryImpl
 import com.example.retrofittest.network.RetrofitClient
 import com.example.retrofittest.domain.model.SearchImageEntity
 import com.example.retrofittest.domain.usecase.SearchGetImageUsecase
 import com.example.retrofittest.domain.usecase.SearchGetVideoUsecase
-import com.example.retrofittest.repository.SearchRepository
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SearchViewModel(
     private val searchGetImageUsecase: SearchGetImageUsecase,
