@@ -1,4 +1,4 @@
-package com.example.retrofittest.presentation.model
+package com.example.retrofittest.domain.model
 
 data class SearchImageEntity(
     val meta: MetaEntity?,

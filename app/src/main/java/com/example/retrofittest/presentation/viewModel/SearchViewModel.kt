@@ -11,7 +11,9 @@ import com.example.retrofittest.data.model.SearchImageResponse
 import com.example.retrofittest.data.model.SearchVideoResponse
 import com.example.retrofittest.data.repository.SearchRepositoryImpl
 import com.example.retrofittest.network.RetrofitClient
-import com.example.retrofittest.presentation.model.SearchImageEntity
+import com.example.retrofittest.domain.model.SearchImageEntity
+import com.example.retrofittest.domain.usecase.SearchGetImageUsecase
+import com.example.retrofittest.domain.usecase.SearchGetVideoUsecase
 import com.example.retrofittest.repository.SearchRepository
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -19,7 +21,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SearchViewModel(
-    private val searchRepository: SearchRepository,
+    private val searchGetImageUsecase: SearchGetImageUsecase,
+    private val searchGetVideoUsecase: SearchGetVideoUsecase
 ) : ViewModel() {
 
     private var _searchWord = MutableLiveData<String>()
@@ -31,19 +34,12 @@ class SearchViewModel(
     private var _videoData = MutableLiveData<SearchVideoResponse>()
     val videoData: LiveData<SearchVideoResponse> = _videoData
 
-    private var _currentTabPosition = MutableLiveData<Int>()
-    val currentTabPosition: LiveData<Int> = _currentTabPosition
-
     fun setSearchWord(keyWord: String) {
         _searchWord.value = keyWord
     }
 
-    fun setCurrentTabPosition(position: Int) {
-        _currentTabPosition.value = position
-    }
-
-    fun setSearchData() {
-        when (currentTabPosition.value) {
+    fun setSearchData(position: Int) {
+        when (position) {
             0 -> setSearchImageData()
             1 -> setSearchVideoData()
         }
@@ -55,7 +51,7 @@ class SearchViewModel(
         lateinit var res: SearchImageEntity
 
         runCatching {
-            res = searchRepository.getSearchImage(keyWord)
+            res = searchGetImageUsecase(keyWord)
 
             _imageData.value = res
         }.onSuccess {
@@ -70,7 +66,7 @@ class SearchViewModel(
         lateinit var res: SearchVideoResponse
 
         runCatching {
-            res = searchRepository.getSearchVideo(keyWord)
+            res = searchGetVideoUsecase(keyWord)
 
             _videoData.value = res
         }.onFailure {
@@ -81,8 +77,11 @@ class SearchViewModel(
 
 class SearchViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
+        val repository = SearchRepositoryImpl(RetrofitClient.search)
+
         return SearchViewModel(
-            SearchRepositoryImpl(RetrofitClient.search)
+            SearchGetImageUsecase(repository),
+            SearchGetVideoUsecase(repository)
         ) as T
     }
 }

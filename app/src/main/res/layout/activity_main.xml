@@ -26,11 +26,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <FrameLayout
-        android:id="@+id/fl_frag"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginVertical="8dp"
+
         app:layout_constraintBottom_toTopOf="@+id/tl_main"
         app:layout_constraintTop_toBottomOf="@+id/et_search_word" />
 
@@ -38,18 +39,6 @@
         android:id="@+id/tl_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Image"/>
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Video"/>
-
-    </com.google.android.material.tabs.TabLayout>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

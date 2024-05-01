@@ -1,4 +1,4 @@
-package com.example.retrofittest.presentation.model
+package com.example.retrofittest.domain.model
 
 import com.example.retrofittest.data.model.ImageDocumentResponse
 import com.example.retrofittest.data.model.MetaResponse

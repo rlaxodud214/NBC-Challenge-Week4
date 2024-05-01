@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.retrofittest.databinding.ItemRvBinding
-import com.example.retrofittest.presentation.model.ImageDocumentEntity
+import com.example.retrofittest.domain.model.ImageDocumentEntity
 
 class SearchImageAdapter(val dataSet: List<ImageDocumentEntity>) :
     RecyclerView.Adapter<SearchImageAdapter.ViewHolder>() {

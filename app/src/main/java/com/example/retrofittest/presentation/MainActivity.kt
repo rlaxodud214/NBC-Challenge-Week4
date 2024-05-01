@@ -11,6 +11,7 @@ import com.example.retrofittest.databinding.ActivityMainBinding
 import com.example.retrofittest.presentation.ui.viewModel.SearchViewModel
 import com.example.retrofittest.presentation.ui.viewModel.SearchViewModelFactory
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
@@ -21,11 +22,13 @@ class MainActivity : AppCompatActivity() {
         SearchViewModelFactory()
     }
 
+    val searchViewPagerAdapter: SearchViewPagerAdapter by lazy {
+        SearchViewPagerAdapter(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        setFragment(ImageFragment.newInstance())
 
         initView()
         initViewModel()
@@ -33,15 +36,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         with(binding) {
-            tlMain.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    tab?.connectFragment()
-                    searchViewModel.setCurrentTabPosition(tab?.position!!)
-                }
+            viewPager.adapter = searchViewPagerAdapter
 
-                override fun onTabUnselected(tab: TabLayout.Tab?) {}
-                override fun onTabReselected(tab: TabLayout.Tab?) {}
-            })
+            TabLayoutMediator(tlMain, viewPager) { tab, position ->
+                tab.setText(searchViewPagerAdapter.getTitle(position))
+                tab.setIcon(searchViewPagerAdapter.getIcon(position))
+            }.attach()
         }
     }
 
@@ -52,24 +52,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnSearch.setOnClickListener {
-            searchViewModel.setSearchData()
-        }
-    }
-
-    private fun TabLayout.Tab.connectFragment() = with(binding) {
-        val tabPosition = this@connectFragment.position
-
-        when (tabPosition) {
-            0 -> setFragment(ImageFragment.newInstance())
-            1 -> setFragment(VideoFragment.newInstance())
-        }
-    }
-
-    private fun setFragment(fragment: Fragment) {
-        supportFragmentManager.commit {
-            replace(R.id.fl_frag, fragment)
-            setReorderingAllowed(true)
-            addToBackStack(null)
+            searchViewModel.setSearchData(tlMain.selectedTabPosition)
         }
     }
 }
