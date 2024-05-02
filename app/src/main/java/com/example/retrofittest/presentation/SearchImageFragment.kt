@@ -22,7 +22,7 @@ class SearchImageFragment : Fragment() {
         SearchViewModelFactory()
     }
 
-    private val adapter: SearchListAdapter by lazy {
+    private val searchListAdapter: SearchListAdapter by lazy {
         SearchListAdapter()
     }
 
@@ -37,13 +37,11 @@ class SearchImageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         searchViewModel.searchListUiState.observe(viewLifecycleOwner) { uiState ->
-            adapter.submitList(uiState.items)
-            val a = 1
-            val b = 1
+            searchListAdapter.submitList(uiState.items)
         }
 
         with(binding.rvImage) {
-            adapter = adapter
+            adapter = searchListAdapter
             layoutManager = LinearLayoutManager(context)
         }
     }

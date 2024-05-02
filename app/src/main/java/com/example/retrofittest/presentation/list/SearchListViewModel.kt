@@ -91,8 +91,12 @@ class SearchViewModel(
             }.orEmpty()
         }
 
-        return createImageItems(images).sortedByDescending {
-            it.date
+        // 기존의 List를 새로운 List로 반환 해줘야 한다.
+        // 이유는 잘 모르겠지만, 새로운 List로 해줘야 DiffUtil의 메서드에서 false를 해주고, UI가 갱신 되는 듯?
+        return arrayListOf<SearchListItem>().apply {
+            addAll(createImageItems(images))
+        }.sortedByDescending {
+            (it as SearchListItem.ImageItem).date
         }
     }
 }

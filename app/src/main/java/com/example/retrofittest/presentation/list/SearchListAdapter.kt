@@ -11,11 +11,9 @@ import com.bumptech.glide.Glide
 import com.example.retrofittest.databinding.ItemRvImageBinding
 import com.example.retrofittest.databinding.ItemRvVideoBinding
 
-// 문제 : Adapter의 데이터는 어디에서 받는가??
-// Fragment에서 submitList 메서드 사용
-class SearchListAdapter: ListAdapter<SearchListItem, SearchListAdapter.ViewHolder>(
-    // ref: https://developer.android.com/reference/androidx/recyclerview/widget/DiffUtil.ItemCallback
-    object : DiffUtil.ItemCallback<SearchListItem>() {
+// ref: https://developer.android.com/reference/androidx/recyclerview/widget/DiffUtil.ItemCallback
+class SearchListAdapter : ListAdapter<SearchListItem, SearchListAdapter.ViewHolder>(UserDiffCallBack()) {
+    class UserDiffCallBack : DiffUtil.ItemCallback<SearchListItem>() {
         // 현재 리스트에 노출하고 있는 아이템과 새로운 아이템이 서로 같은지 비교
         // 권장 사항 : Item의 파라미터에 고유한 ID 값이 있는 경우, 이 메서드는 ID를 기준으로 동일성을 반환 해야함
         override fun areItemsTheSame(oldItem: SearchListItem, newItem: SearchListItem): Boolean {
@@ -31,11 +29,13 @@ class SearchListAdapter: ListAdapter<SearchListItem, SearchListAdapter.ViewHolde
         // 호출 경로 : areItemsTheSame 메서드가 true를 반환하는 경우
         override fun areContentsTheSame(
             oldItem: SearchListItem, newItem: SearchListItem,
-        ) = oldItem == newItem
+        ): Boolean {
+            return oldItem == newItem
+        }
     }
-) {
+
     abstract class ViewHolder(
-        root: View
+        root: View,
     ) : RecyclerView.ViewHolder(root) {
         abstract fun onBind(searchItem: SearchListItem)
     }
@@ -76,6 +76,12 @@ class SearchListAdapter: ListAdapter<SearchListItem, SearchListAdapter.ViewHolde
         holder.onBind(getItem(position))
     }
 
+    override fun getItemCount(): Int {
+        Log.d("Test", "데이터는 ${currentList}")
+        Log.d("Test", "데이터의 개수는 ${currentList.size}")
+
+        return currentList.size
+    }
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is SearchListItem.ImageItem -> SearchItemViewType.IMAGE.ordinal
