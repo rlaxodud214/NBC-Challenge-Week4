@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#77d3d3d3"
     android:layout_margin="16dp">
 
     <ImageView
@@ -16,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_collection"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -33,7 +34,7 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/tv_datetime"
         app:layout_constraintStart_toEndOf="@+id/iv_image"
-        app:layout_constraintTop_toBottomOf="@+id/tv_collection" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <TextView
         android:id="@+id/tv_datetime"

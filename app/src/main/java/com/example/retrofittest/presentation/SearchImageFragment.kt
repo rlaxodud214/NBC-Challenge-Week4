@@ -1,4 +1,4 @@
-package com.example.retrofittest.presentation.list
+package com.example.retrofittest.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.retrofittest.databinding.FragmentImageBinding
+import com.example.retrofittest.presentation.list.SearchListAdapter
+import com.example.retrofittest.presentation.list.SearchListItem
 import com.example.retrofittest.presentation.ui.viewModel.SearchViewModel
 import com.example.retrofittest.presentation.ui.viewModel.SearchViewModelFactory
 
-class VideoFragment : Fragment() {
+class SearchImageFragment : Fragment() {
     private val binding by lazy {
         FragmentImageBinding.inflate(layoutInflater)
     }
@@ -20,9 +22,8 @@ class VideoFragment : Fragment() {
         SearchViewModelFactory()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    private val adapter: SearchListAdapter by lazy {
+        SearchListAdapter()
     }
 
     override fun onCreateView(
@@ -35,22 +36,24 @@ class VideoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchViewModel.videoData.observe(viewLifecycleOwner) {
-            val searchVideoAdapter = SearchVideoAdapter(it.documents)
+        searchViewModel.searchListUiState.observe(viewLifecycleOwner) { uiState ->
+            adapter.submitList(uiState.items)
+            val a = 1
+            val b = 1
+        }
 
-            with(binding.rvImage) {
-                adapter = searchVideoAdapter
-                layoutManager = LinearLayoutManager(context)
-            }
+        with(binding.rvImage) {
+            adapter = adapter
+            layoutManager = LinearLayoutManager(context)
         }
     }
 
     companion object {
-        private var INSTANCE: VideoFragment? = null
+        private var INSTANCE: SearchImageFragment? = null
 
-        fun newInstance(): VideoFragment {
-            return synchronized(VideoFragment::class.java) {
-                val instance = INSTANCE ?: VideoFragment()
+        fun newInstance(): SearchImageFragment {
+            return synchronized(SearchImageFragment::class.java) {
+                val instance = INSTANCE ?: SearchImageFragment()
 
                 if (INSTANCE == null) {
                     INSTANCE = instance

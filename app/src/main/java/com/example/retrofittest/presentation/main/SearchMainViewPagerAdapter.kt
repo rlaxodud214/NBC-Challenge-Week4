@@ -3,8 +3,8 @@ package com.example.retrofittest.presentation.main
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.retrofittest.R
-import com.example.retrofittest.presentation.list.ImageFragment
-import com.example.retrofittest.presentation.list.VideoFragment
+import com.example.retrofittest.presentation.SearchImageFragment
+import com.example.retrofittest.presentation.SearchVideoFragment
 
 class SearchMainViewPagerAdapter(
     fragmentActivity: FragmentActivity
@@ -12,12 +12,12 @@ class SearchMainViewPagerAdapter(
 
     private val fragments = listOf(
         SearchMainTabModel(
-            fragment = ImageFragment.newInstance(),
+            fragment = SearchImageFragment.newInstance(),
             title = "Image",
             icon = R.drawable.ic_launcher_foreground
         ),
         SearchMainTabModel(
-            fragment = VideoFragment.newInstance(),
+            fragment = SearchVideoFragment.newInstance(),
             title = "Video",
             icon = R.drawable.ic_launcher_foreground
         )

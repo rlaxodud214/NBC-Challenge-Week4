@@ -13,6 +13,8 @@ import com.example.retrofittest.network.RetrofitClient
 import com.example.retrofittest.domain.model.SearchImageEntity
 import com.example.retrofittest.domain.usecase.SearchGetImageUsecase
 import com.example.retrofittest.domain.usecase.SearchGetVideoUsecase
+import com.example.retrofittest.presentation.list.SearchListItem
+import com.example.retrofittest.presentation.list.SearchListUiState
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -23,8 +25,8 @@ class SearchViewModel(
     private var _searchWord = MutableLiveData<String>()
     val searchWord: LiveData<String> = _searchWord
 
-    private var _imageData = MutableLiveData<SearchImageEntity>()
-    val imageData: LiveData<SearchImageEntity> = _imageData
+    private var _searchListUiState = MutableLiveData<SearchListUiState>()
+    val searchListUiState: LiveData<SearchListUiState> = _searchListUiState
 
     private var _videoData = MutableLiveData<SearchVideoResponse>()
     val videoData: LiveData<SearchVideoResponse> = _videoData
@@ -35,20 +37,25 @@ class SearchViewModel(
 
     fun setSearchData(position: Int) {
         when (position) {
-            0 -> setSearchImageData()
-            1 -> setSearchVideoData()
+            0 -> onSearchImage()
+            1 -> onSearchVideo()
         }
     }
 
-    fun setSearchImageData() = viewModelScope.launch {
-        val keyWord = _searchWord.value.toString()
-
-        lateinit var res: SearchImageEntity
-
+    fun onSearchImage() = viewModelScope.launch {
         runCatching {
-            res = searchGetImageUsecase(keyWord)
+            val keyWord = _searchWord.value.toString()
 
-            _imageData.value = res
+            val res = searchGetImageUsecase(keyWord)
+
+            val items = createItems(
+                images = res
+            )
+
+            _searchListUiState.value = SearchListUiState(
+                items = items,
+                isLoading = false
+            )
         }.onSuccess {
             Log.d("API CALL", "Image API 호출이 성공했습니다.")
         }.onFailure {
@@ -56,16 +63,36 @@ class SearchViewModel(
         }
     }
 
-    fun setSearchVideoData() = viewModelScope.launch {
+    fun onSearchVideo() = viewModelScope.launch {
         val keyWord = _searchWord.value.toString()
-        lateinit var res: SearchVideoResponse
 
         runCatching {
-            res = searchGetVideoUsecase(keyWord)
-
+            val res = searchGetVideoUsecase(keyWord)
             _videoData.value = res
+
         }.onFailure {
             Log.d("API CALL", "Video API 호출이 실패했습니다.")
+        }
+    }
+
+    private fun createItems(
+        images: SearchImageEntity
+    ): List<SearchListItem>  {
+
+        fun createImageItems(
+            images: SearchImageEntity
+        ): List<SearchListItem.ImageItem> {
+            return images.documents?.map { docs ->
+                SearchListItem.ImageItem(
+                    title = docs.collection,
+                    thumbnail = docs.thumbnail_url,
+                    date = docs.datetime
+                )
+            }.orEmpty()
+        }
+
+        return createImageItems(images).sortedByDescending {
+            it.date
         }
     }
 }
