@@ -1,8 +1,10 @@
 package com.example.retrofittest.presentation.main
 
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.retrofittest.R
+import com.example.retrofittest.newInstance
 import com.example.retrofittest.presentation.list.SearchListFragment
 
 class SearchMainViewPagerAdapter(
@@ -11,12 +13,12 @@ class SearchMainViewPagerAdapter(
 
     private val fragments = listOf(
         SearchMainTabModel(
-            fragment = SearchListFragment.newInstance(),
+            fragment = newInstance<SearchListFragment>(),
             title = "Search",
             icon = R.drawable.ic_launcher_foreground
         ),
         SearchMainTabModel(
-            fragment = SearchMainBookmarkFragment.newInstance(),
+            fragment = newInstance<SearchMainBookmarkFragment>(),
             title = "Bookmark",
             icon = R.drawable.ic_launcher_foreground
         )

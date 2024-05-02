@@ -17,20 +17,4 @@ class SearchMainBookmarkFragment : Fragment() {
     ): View? {
         return binding.root
     }
-
-    companion object {
-        private var INSTANCE: SearchMainBookmarkFragment? = null
-
-        fun newInstance(): SearchMainBookmarkFragment {
-            return synchronized(SearchMainBookmarkFragment::class.java) {
-                val instance = INSTANCE ?: SearchMainBookmarkFragment()
-
-                if (INSTANCE == null) {
-                    INSTANCE = instance
-                }
-
-                instance
-            }
-        }
-    }
 }

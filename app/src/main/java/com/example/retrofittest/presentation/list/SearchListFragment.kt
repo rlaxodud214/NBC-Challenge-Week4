@@ -43,20 +43,4 @@ class SearchListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
         }
     }
-
-    companion object {
-        private var INSTANCE: SearchListFragment? = null
-
-        fun newInstance(): SearchListFragment {
-            return synchronized(SearchListFragment::class.java) {
-                val instance = INSTANCE ?: SearchListFragment()
-
-                if (INSTANCE == null) {
-                    INSTANCE = instance
-                }
-
-                instance
-            }
-        }
-    }
 }
