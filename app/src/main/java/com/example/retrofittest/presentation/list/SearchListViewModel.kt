@@ -37,19 +37,21 @@ class SearchViewModel(
 
     fun setSearchData(position: Int) {
         when (position) {
-            0 -> onSearchImage()
-            1 -> onSearchVideo()
+            0 -> onSearchData()
+            1 -> onSearchData()
         }
     }
 
-    fun onSearchImage() = viewModelScope.launch {
+    fun onSearchData() = viewModelScope.launch {
         runCatching {
-            val keyWord = _searchWord.value.toString()
+            val query = _searchWord.value.toString()
 
-            val res = searchGetImageUsecase(keyWord)
+            val imageResponse = searchGetImageUsecase(query)
+            val videoResponse = searchGetVideoUsecase(query)
 
             val items = createItems(
-                images = res
+                images = imageResponse,
+                videos = videoResponse,
             )
 
             _searchListUiState.value = SearchListUiState(
@@ -63,40 +65,43 @@ class SearchViewModel(
         }
     }
 
-    fun onSearchVideo() = viewModelScope.launch {
-        val keyWord = _searchWord.value.toString()
-
-        runCatching {
-            val res = searchGetVideoUsecase(keyWord)
-            _videoData.value = res
-
-        }.onFailure {
-            Log.d("API CALL", "Video API 호출이 실패했습니다.")
-        }
-    }
-
     private fun createItems(
-        images: SearchImageEntity
+        images: SearchImageEntity,
+        videos: SearchVideoResponse
     ): List<SearchListItem>  {
 
         fun createImageItems(
-            images: SearchImageEntity
-        ): List<SearchListItem.ImageItem> {
-            return images.documents?.map { docs ->
+            images: SearchImageEntity,
+            videos: SearchVideoResponse
+        ): List<SearchListItem> {
+            val image = images.documents?.map { docs ->
                 SearchListItem.ImageItem(
                     title = docs.collection,
                     thumbnail = docs.thumbnail_url,
                     date = docs.datetime
                 )
             }.orEmpty()
+
+            val video = videos.documents?.map { docs ->
+                SearchListItem.VideoItem(
+                    title = docs.title,
+                    thumbnail = docs.thumbnail,
+                    date =  docs.datetime
+                )
+            }.orEmpty()
+
+            return image + video
         }
 
         // 기존의 List를 새로운 List로 반환 해줘야 한다.
         // 이유는 잘 모르겠지만, 새로운 List로 해줘야 DiffUtil의 메서드에서 false를 해주고, UI가 갱신 되는 듯?
         return arrayListOf<SearchListItem>().apply {
-            addAll(createImageItems(images))
+            addAll(createImageItems(images, videos))
         }.sortedByDescending {
-            (it as SearchListItem.ImageItem).date
+            when(it) {
+                is SearchListItem.ImageItem -> it.date
+                is SearchListItem.VideoItem -> it.date
+            }
         }
     }
 }

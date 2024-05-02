@@ -1,4 +1,4 @@
-package com.example.retrofittest.presentation
+package com.example.retrofittest.presentation.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,11 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.retrofittest.databinding.FragmentImageBinding
-import com.example.retrofittest.presentation.list.SearchListAdapter
 import com.example.retrofittest.presentation.ui.viewModel.SearchViewModel
 import com.example.retrofittest.presentation.ui.viewModel.SearchViewModelFactory
 
-class SearchVideoFragment : Fragment() {
+class SearchListFragment : Fragment() {
     private val binding by lazy {
         FragmentImageBinding.inflate(layoutInflater)
     }
@@ -21,9 +20,8 @@ class SearchVideoFragment : Fragment() {
         SearchViewModelFactory()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    private val searchListAdapter: SearchListAdapter by lazy {
+        SearchListAdapter()
     }
 
     override fun onCreateView(
@@ -36,22 +34,22 @@ class SearchVideoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchViewModel.videoData.observe(viewLifecycleOwner) {
-            val searchVideoAdapter = SearchListAdapter()
+        searchViewModel.searchListUiState.observe(viewLifecycleOwner) { uiState ->
+            searchListAdapter.submitList(uiState.items)
+        }
 
-            with(binding.rvImage) {
-                adapter = searchVideoAdapter
-                layoutManager = LinearLayoutManager(context)
-            }
+        with(binding.rvSearchItemList) {
+            adapter = searchListAdapter
+            layoutManager = LinearLayoutManager(context)
         }
     }
 
     companion object {
-        private var INSTANCE: SearchVideoFragment? = null
+        private var INSTANCE: SearchListFragment? = null
 
-        fun newInstance(): SearchVideoFragment {
-            return synchronized(SearchVideoFragment::class.java) {
-                val instance = INSTANCE ?: SearchVideoFragment()
+        fun newInstance(): SearchListFragment {
+            return synchronized(SearchListFragment::class.java) {
+                val instance = INSTANCE ?: SearchListFragment()
 
                 if (INSTANCE == null) {
                     INSTANCE = instance

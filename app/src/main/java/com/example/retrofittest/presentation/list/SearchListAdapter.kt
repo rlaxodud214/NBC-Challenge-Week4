@@ -100,7 +100,7 @@ class SearchListAdapter : ListAdapter<SearchListItem, SearchListAdapter.ViewHold
                     .load(searchImageItem.thumbnail)
                     .into(ivImage)
 
-                tvTitle.text = searchImageItem.title
+                tvTitle.text = "(Image) ${searchImageItem.title}"
                 tvDatetime.text = searchImageItem.date.toString()
             }
         }
@@ -117,7 +117,7 @@ class SearchListAdapter : ListAdapter<SearchListItem, SearchListAdapter.ViewHold
                     .load(searchVideoItem.thumbnail)
                     .into(ivImage)
 
-                tvTitle.text = searchVideoItem.title
+                tvTitle.text = "(Video) ${searchVideoItem.title}"
                 tvDatetime.text = searchVideoItem.date.toString()
             }
         }
